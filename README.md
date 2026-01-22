@@ -9,6 +9,12 @@ python train_and_save_losses.py --output_dir ./exp_results/loss_analysis1
 python plot_loss_distribution.py --data_path ./exp_results/loss_analysis1/losses_data.npz --output_dir ./exp_results/loss_analysis1/plots
 
 # 第三步：标签预修正
+python ./extract_cifar_images.py 获得原图，MLLM推理使用
+注意
+dataset_name = 'cifar100'  # 'cifar10' 或 'cifar100'
+root_dir = './datasets/cifar-100-python'  # 从你的路径映射获取
+
+MLLM辅助的标签预修正
 python ./TNDC_mod_labels_mllm.py --dataset_name cifar10 --noise_mode idn --noise_ratio 0.2
 
 # 第四步：使用TNDC插件在下游任务
@@ -24,4 +30,6 @@ python ./5_DLD/train_on_CIFAR_runable.py --noise_type cifar10-sym-0.2 --nepoch 5
 python ./5_DLD/train_on_CIFAR_tndc.py --noise_type cifar10-sym-0.2 --nepoch 50 --device cuda:5
 
 ......
+
+
 
