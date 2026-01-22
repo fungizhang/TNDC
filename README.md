@@ -3,7 +3,7 @@ A label pre-correction method
 
 进入项目
 # 第一步：训练并保存损失数据
-python train_and_save_losses.py --output_dir ./exp_results/loss_analysis1 --epoch 120 --noise_ratio 0.5
+python train_and_save_losses.py --output_dir ./exp_results/loss_analysis1
 
 # 第二步：画各种分布图
 python plot_loss_distribution.py --data_path ./exp_results/loss_analysis1/losses_data.npz --output_dir ./exp_results/loss_analysis1/plots
