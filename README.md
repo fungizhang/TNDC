@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="EVFeX.png" height=500, width=800>
+    <img src="figs/algorithm.png" height=500, width=800>
 </p>
 
 
