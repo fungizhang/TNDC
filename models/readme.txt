@@ -1,0 +1,1 @@
+download dinov2_vitl14_reg4_pretrain.pth from :     or  
