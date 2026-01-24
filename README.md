@@ -46,51 +46,90 @@ Before running or modifying the code, you need to:
   pip install -r requirements.txt
   ```
 
-## :partying_face: How to run:
+
+## 🥳 How to Run:
+
+We provide a complete pipeline for **TNDC (Label Pre-correction)**. Follow the steps below:
+
+### 1. Train and Save Loss Data
+
+Train the initial model to collect loss statistics for noise identification.
+
+```bash
+python train_and_save_losses.py --output_dir ./exp_results/loss_analysis1
 
 ```
-cd ./kernel/examples/demo/vert_sbt/
-python wefe-vert-sbt.py
+
+### 2. Plot Loss Distribution
+
+Visualize the loss distribution to analyze clean vs. noisy data.
+
+```bash
+python plot_loss_distribution.py --data_path ./exp_results/loss_analysis1/losses_data.npz --output_dir ./exp_results/loss_analysis1/plots
+
 ```
 
+### 3. Label Pre-correction
 
+First, extract images for MLLM (Multimodal Large Language Model) inference:
 
-In ```/kernel/examples/demo/vert_sbt/binary_config.yaml```, you can change the hyper-parameters and some settings. 
-```
-### dataset BREAT
-data_promoter: "data/breast_vert_promoter.csv"
-data_provider: "data/breast_vert_provider.csv"
-### dataset LOAN
-#data_promoter: "data/default_credit_vert_promoter.csv"
-#data_provider: "data/default_credit_vert_provider.csv"
-### dataset FINANCE
-#data_promoter: "data/dataset_ap.csv"
-#data_provider: "data/dataset_pp.csv"
+> **Note**: Update `dataset_name` (cifar10/cifar100) and `root_dir` in `extract_cifar_images.py` before running.
 
-idx: "id"
-label_name: "y"
-data_promoter_train: "breast_vert_promoter_train"
-data_promoter_val: "breast_vert_promoter_val"
-data_provider_train: "breast_vert_provider_train"
-data_provider_val: "breast_vert_provider_val"
+```bash
+python ./extract_cifar_images.py
 
-eval_type: "binary"
-task_type: "classification"
-loss_func: "cross_entropy"
-tree_depth: 5
-tree_num: 3
-learning_rate: 0.1
 ```
 
-## :evergreen_tree: Detail of our method:
+Then, perform MLLM-assisted label pre-correction:
 
-Our code framework is based on the open-source code of ```WeFe``` (https://github.com/tianmiantech/WeFe). For a detailed introduction to WeFe, please refer to ```README_WeFe.md```.
+```bash
+python ./TNDC_mod_labels_mllm.py --dataset_name cifar10 --noise_mode idn --noise_ratio 0.2
 
+```
 
-## :smiley: Citation
+### 4. Downstream Tasks with TNDC Plugin
+
+Compare standard training with TNDC-enhanced training across different frameworks:
+
+**CIFAR-10 (CE):**
+
+```bash
+python ./1_CE/train_cifar.py --data_name cifar10 --epoch 50 --noise_mode sym --noise_ratio 0.2 --gpu 5
+python ./1_CE/train_cifar_tndc.py --data_name cifar10 --epoch 50 --noise_mode sym --noise_ratio 0.2 --gpu 5
+
+```
+
+**CIFAR-100 (CE):**
+
+```bash
+python ./1_CE/train_cifar.py --data_name cifar100 --epoch 200 --noise_mode sym --noise_ratio 0.2 --gpu 5
+python ./1_CE/train_cifar_tndc.py --data_name cifar100 --epoch 200 --noise_mode sym --noise_ratio 0.2 --gpu 5
+
+```
+
+**DLD Framework:**
+
+```bash
+python ./5_DLD/train_on_CIFAR_runable.py --noise_type cifar10-sym-0.2 --nepoch 50 --device cuda:5
+python ./5_DLD/train_on_CIFAR_tndc.py --noise_type cifar10-sym-0.2 --nepoch 50 --device cuda:5
+
+```
+
+---
+
+## 🌲 Detail of Our Method:
+
+Our code framework is based on the open-source code of `WeFe` (https://github.com/tianmiantech/WeFe). For a detailed introduction to WeFe, please refer to `README_WeFe.md`.
+
+The core of **EVFeX** focuses on efficient vertical federated learning via optimized matrix multiplication, while **TNDC** provides a robust label pre-correction mechanism for handling noisy labels in these federated or centralized settings.
+
+---
+
+## 😃 Citation
+
 If our work is useful for your research, please consider citing:
 
-```
+```bibtex
 @article{zhang2024evfex,
   title={EVFeX: An efficient vertical federated XGBoost algorithm based on optimized secure matrix multiplication},
   author={Zhang, Fangjiao and Wang, Li and Cui, Chang and Meng, Qingshu and Yang, Min},
@@ -99,48 +138,16 @@ If our work is useful for your research, please consider citing:
   year={2024},
   publisher={Elsevier}
 }
+
 ```
 
-## :phone: Contact
-If you have any questions, please feel free to reach me out at `fungizhang@gmail.com`. 
+---
+
+## 📞 Contact
+
+If you have any questions, please feel free to reach out at `fungizhang@gmail.com`.
 
 
-
-
-
-
-# TNDC
-A label pre-correction method
-
-进入项目
-# 第一步：训练并保存损失数据
-python train_and_save_losses.py --output_dir ./exp_results/loss_analysis1
-
-# 第二步：画各种分布图
-python plot_loss_distribution.py --data_path ./exp_results/loss_analysis1/losses_data.npz --output_dir ./exp_results/loss_analysis1/plots
-
-# 第三步：标签预修正
-python ./extract_cifar_images.py 获得原图，MLLM推理使用
-注意
-dataset_name = 'cifar100'  # 'cifar10' 或 'cifar100'
-root_dir = './datasets/cifar-100-python'  # 从你的路径映射获取
-
-MLLM辅助的标签预修正
-python ./TNDC_mod_labels_mllm.py --dataset_name cifar10 --noise_mode idn --noise_ratio 0.2
-
-# 第四步：使用TNDC插件在下游任务
-
-python ./1_CE/train_cifar.py --data_name cifar10 --epoch 50 --noise_mode sym --noise_ratio 0.2 --gpu 5
-python ./1_CE/train_cifar_tndc.py --data_name cifar10 --epoch 50 --noise_mode sym --noise_ratio 0.2 --gpu 5
-
-python ./1_CE/train_cifar.py --data_name cifar100 --epoch 200 --noise_mode sym --noise_ratio 0.2 --gpu 5
-python ./1_CE/train_cifar_tndc.py --data_name cifar100 --epoch 200 --noise_mode sym --noise_ratio 0.2 --gpu 5
-
-
-python ./5_DLD/train_on_CIFAR_runable.py --noise_type cifar10-sym-0.2 --nepoch 50 --device cuda:5
-python ./5_DLD/train_on_CIFAR_tndc.py --noise_type cifar10-sym-0.2 --nepoch 50 --device cuda:5
-
-......
 
 
 
