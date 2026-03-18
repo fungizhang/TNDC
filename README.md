@@ -12,7 +12,7 @@
 ## The Table of Contents
 
 
-:wink: If Twin-sight is helpful to you, please star this repo. Thanks! :hugs: 
+:wink: If TNDC is helpful to you, please star this repo. Thanks! :hugs: 
 - [:grimacing: Dependencies and installation](#grimacing-dependencies-and-installation)
 - [:partying\_face: How to run](#partying_face-how-to-run)
 - [:evergreen\_tree: Detail of our method](#evergreen_tree-detail-of-twin-sight)
