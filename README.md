@@ -1,19 +1,13 @@
 <p align="center">
-    <img src="figs/algorithm.png" height=500, width=800>
+   <img width="2444" height="572" alt="image" src="https://github.com/user-attachments/assets/d97580e0-9db7-4f6a-81ec-4f49bf51a9fd" />
 </p>
 
 
-<h1 align="center">EVFeX: An Efficient Vertical Federated XGBoost Algorithm Based on Optimized Secure Matrix Multiplication (SIGPRO 2024)</h1>
 
-Fangjiao Zhang <sup>a</sup>,  Li Wang <sup>a</sup>, Chang Cui <sup>a</sup>, Qingshu Meng <sup>a</sup>, Min Yang <sup>b</sup>
+<h1 align="center">TNDC: Towards Reliable Label Pre-Correction via MLLM-Assisted Semantic Prototype Construction</h1>
 
-**Keywords**: Vertical Federated Learning, Secure Multi-Party Computation, XGBoost, Secure Matrix Multiplication, QR decomposition.
 
-<sup>a</sup> Wuhan Tianyu Information Industry Co., Ltd, Wuhan, China
-
-<sup>b</sup> School of Cyber Science and Engineering, Wuhan University, Wuhan, China
-
-**Abstract**: Federated Learning is a distributed machine learning paradigm that enables multiple participants to collaboratively train models without compromising the privacy of any party involved. Currently, vertical federated learning based on XGBoost is widely used in the industry due to its interpretability. However, existing vertical federated XGBoost algorithms either lack sufficient security, exhibit low efficiency, or struggle to adapt to large-scale datasets. To address these issues, we propose EVFeX, an efficient vertical federated XGBoost algorithm based on optimized secure matrix multiplication, which eliminates the need for time-consuming homomorphic encryption and achieves a level of security equivalent to encryption. It greatly enhances efficiency and remains unaffected by data volume. The proposed algorithm is compared with three state-of-the-art algorithms on three datasets, demonstrating its superior efficiency and uncompromised accuracy. We also provide theoretical analyses of the algorithm's privacy and conduct a comparative analysis of privacy, efficiency, and accuracy with related algorithms.
+**Abstract**: Label pre-correction is vital for noisy label learning as it mitigates the negative impact of noise during model warm-up. However, existing pre-correction methods often overlook intra-class noise distributions, leading to biased semantic prototypes and suboptimal performance. To address this, we propose TNDC, a novel pre-correction framework that leverages Multimodal Large Language Models (MLLMs) for robust semantic prototype construction. Unlike prior arts, TNDC introduces an intra-class denoising step: samples are first clustered within each class using unsupervised features to decouple noise, after which an MLLM identifies credible subclusters to form highly reliable prototypes. Furthermore, we introduce confidence-aware label correction to avoid erroneous modification of hard noise labels, along with a minimum distance threshold to filter out open-set noise, excluding irrelevant features from training. Extensive experiments on CIFAR, WebVision, and Clothing1M demonstrate that TNDC achieves state-of-the-art pre-correction accuracy and significantly boosts downstream noise-robust learning. Remarkably, under the extreme setting of 80\% instance-dependent noise, TNDC boosts the accuracy of DLD by 91.70\% on CIFAR-10 and 76.81\% on CIFAR-100. Code is available at https://github.com/fungizhang/TNDC.
 
 ## The Table of Contents
 
@@ -32,18 +26,18 @@ Before running or modifying the code, you need to:
   
   ```
   # git clone this repository
-  git clone https://github.com/fungizhang/EVFeX.git
-  cd EVFeX
+  git clone https://github.com/fungizhang/TNDC.git
+  cd TNDC
 
   # create new anaconda env 
-  conda create -n EVFeX python=3.9 -y
-  conda activate EVFeX
+  conda create -n TNDC python=3.10 -y
+  conda activate TNDC
   ```
 
 - required packages in `requirements.txt`
   ```
   # install python dependencies
-  pip install -r requirements.txt
+  Install whatever is missing.
   ```
 
 
@@ -119,9 +113,7 @@ python ./5_DLD/train_on_CIFAR_tndc.py --noise_type cifar10-sym-0.2 --nepoch 50 -
 
 ## 🌲 Detail of Our Method:
 
-Our code framework is based on the open-source code of `WeFe` (https://github.com/tianmiantech/WeFe). For a detailed introduction to WeFe, please refer to `README_WeFe.md`.
 
-The core of **EVFeX** focuses on efficient vertical federated learning via optimized matrix multiplication, while **TNDC** provides a robust label pre-correction mechanism for handling noisy labels in these federated or centralized settings.
 
 ---
 
@@ -130,14 +122,6 @@ The core of **EVFeX** focuses on efficient vertical federated learning via optim
 If our work is useful for your research, please consider citing:
 
 ```bibtex
-@article{zhang2024evfex,
-  title={EVFeX: An efficient vertical federated XGBoost algorithm based on optimized secure matrix multiplication},
-  author={Zhang, Fangjiao and Wang, Li and Cui, Chang and Meng, Qingshu and Yang, Min},
-  journal={Signal Processing},
-  pages={109686},
-  year={2024},
-  publisher={Elsevier}
-}
 
 ```
 
