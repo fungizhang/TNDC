@@ -1,6 +1,5 @@
-<p align="center">
-   <img width="2444" height="572" alt="image" src="https://github.com/user-attachments/assets/d97580e0-9db7-4f6a-81ec-4f49bf51a9fd" />
-</p>
+<img width="3783" height="899" alt="algorithm" src="https://github.com/user-attachments/assets/40e47ce1-4e66-4b14-b12a-cf9d3fff1285" />
+
 
 
 
